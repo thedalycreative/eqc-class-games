@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>AI Prompts Playground</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+		<style>
+			body {
+				font-family: system-ui;
+				background: #0f172a;
+				color: white;
+				padding: 40px;
+				max-width: 800px;
+				margin: auto;
+			}
+
+			.prompt {
+				background: #020617;
+				padding: 16px;
+				border-radius: 14px;
+				margin-bottom: 12px;
+				cursor: pointer;
+				border: 1px solid rgba(255, 255, 255, 0.1);
+			}
+
+			.prompt:hover {
+				transform: translateY(-2px);
+			}
+
+			a {
+				display: inline-block;
+				margin-bottom: 20px;
+				color: #60a5fa;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>🤖 AI Prompts Playground</h1>
+
+		<a href="https://gemini.google.com/" target="_blank">Open Gemini</a>
+
+		<div class="prompt" onclick="copy(this)">
+			Use what you know about me to generate a cartoon caricature.
+		</div>
+
+		<div class="prompt" onclick="copy(this)">
+			Ask me 3 short questions and use my answers to write a short poem about my
+			dog.
+		</div>
+
+		<div class="prompt" onclick="copy(this)">
+			Generate HTML code for a ridiculous fake website that is silly, chaotic,
+			animated and hilarious. Use Tailwind.
+		</div>
+
+		<div class="prompt" onclick="copy(this)">
+			Turn me into a movie trailer narrator describing my life as an overdramatic
+			blockbuster.
+		</div>
+
+		<div class="prompt" onclick="copy(this)">
+			Give me a playful slightly cheeky question to ask my online class tonight
+			that is funny but still classroom appropriate.
+		</div>
+
+		<script>
+			function copy(el) {
+				navigator.clipboard.writeText(el.innerText);
+				alert("Copied!");
+			}
+		</script>
+	</body>
+</html>

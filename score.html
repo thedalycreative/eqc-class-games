@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Class Scoreboard</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+		<style>
+			body {
+				font-family: system-ui;
+				background: #0f172a;
+				color: white;
+				padding: 40px;
+				max-width: 1100px;
+				margin: auto;
+			}
+
+			input {
+				padding: 12px;
+				border-radius: 10px;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				background: #020617;
+				color: white;
+			}
+
+			button {
+				padding: 6px 10px;
+				border-radius: 8px;
+				border: none;
+				cursor: pointer;
+				font-weight: 600;
+			}
+
+			table {
+				width: 100%;
+				margin-top: 20px;
+				border-collapse: collapse;
+			}
+
+			td,
+			th {
+				padding: 12px;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				text-align: left;
+			}
+
+			.counter button {
+				margin-right: 4px;
+			}
+
+			.total {
+				font-weight: 800;
+				font-size: 18px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>🏆 Class Scoreboard</h1>
+
+		<input id="nameInput" placeholder="Add student and press Enter" />
+
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>😀 Emoji (+1)</th>
+					<th>🎭 Truths (+2)</th>
+					<th>🤖 AI (+1)</th>
+					<th>⭐ Bonus (+1)</th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody id="tbody"></tbody>
+		</table>
+
+		<script>
+			const state = [];
+
+			const tbody = document.getElementById("tbody");
+			const input = document.getElementById("nameInput");
+
+			input.addEventListener("keydown", (e) => {
+				if (e.key === "Enter") {
+					addPerson(input.value);
+					input.value = "";
+				}
+			});
+
+			function addPerson(name) {
+				if (!name.trim()) return;
+
+				state.push({
+					id: Date.now(),
+					name: name,
+					emoji: 0,
+					truths: 0,
+					ai: 0,
+					bonus: 0,
+				});
+
+				render();
+			}
+
+			function render() {
+				tbody.innerHTML = "";
+
+				state.forEach((p) => {
+					const tr = document.createElement("tr");
+
+					tr.innerHTML = `
+<td>${p.name}</td>
+
+<td>${counter(p, "emoji", 1)}</td>
+<td>${counter(p, "truths", 2)}</td>
+<td>${counter(p, "ai", 1)}</td>
+<td>${counter(p, "bonus", 1)}</td>
+
+<td class="total">${total(p)}</td>
+
+<td><button onclick="remove(${p.id})">Remove</button></td>
+`;
+
+					tbody.appendChild(tr);
+				});
+			}
+
+			function counter(p, key, points) {
+				return `
+<div class="counter">
+<button onclick="change(${p.id},'${key}',1)">+</button>
+<button onclick="change(${p.id},'${key}',-1)">-</button>
+${p[key]}
+</div>
+`;
+			}
+
+			function change(id, key, val) {
+				const p = state.find((x) => x.id === id);
+				if (!p) return;
+
+				p[key] = Math.max(0, p[key] + val);
+				render();
+			}
+
+			function total(p) {
+				return p.emoji * 1 + p.truths * 2 + p.ai * 1 + p.bonus * 1;
+			}
+
+			function remove(id) {
+				const i = state.findIndex((x) => x.id === id);
+				if (i > -1) state.splice(i, 1);
+				render();
+			}
+		</script>
+	</body>
+</html>

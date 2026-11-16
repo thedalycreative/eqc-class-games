@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Two Truths & A Lie</title>
+
+		<style>
+			body {
+				font-family: system-ui;
+				background: #0f172a;
+				color: white;
+				padding: 40px;
+				max-width: 800px;
+				margin: auto;
+			}
+
+			input,
+			textarea {
+				width: 100%;
+				padding: 12px;
+				border-radius: 12px;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				background: #020617;
+				color: white;
+			}
+
+			.list {
+				margin-top: 20px;
+				background: #020617;
+				padding: 16px;
+				border-radius: 12px;
+			}
+
+			.item {
+				padding: 6px 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			}
+
+			button {
+				margin-top: 10px;
+				padding: 10px 14px;
+				border-radius: 10px;
+				border: none;
+				cursor: pointer;
+				font-weight: 600;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>🎭 Two Truths & A Lie</h1>
+
+		<p>Type a story → press Enter</p>
+
+		<input id="storyInput" placeholder="I got this jacket at a concert…" />
+
+		<div class="list" id="list"></div>
+
+		<h2>🤖 Generate Fake Stories</h2>
+
+		<a href="https://gemini.google.com/" target="_blank">Open Gemini</a>
+
+		<textarea id="aiPrompt">
+Generate 2 believable but funny fake origin stories about my object (a hat). Keep them short.
+</textarea
+		>
+
+		<button onclick="copyPrompt()">Copy Prompt</button>
+
+		<script>
+			let stories = [];
+			const input = document.getElementById("storyInput");
+			const list = document.getElementById("list");
+
+			input.addEventListener("keydown", (e) => {
+				if (e.key === "Enter") {
+					if (!input.value.trim()) return;
+					stories.push(input.value.trim());
+					input.value = "";
+					render();
+				}
+			});
+
+			function render() {
+				list.innerHTML = "";
+				stories.forEach((s, i) => {
+					const d = document.createElement("div");
+					d.className = "item";
+					d.textContent = i + 1 + ". " + s;
+					list.appendChild(d);
+				});
+			}
+
+			function copyPrompt() {
+				navigator.clipboard.writeText(document.getElementById("aiPrompt").value);
+				alert("Copied!");
+			}
+		</script>
+	</body>
+</html>
